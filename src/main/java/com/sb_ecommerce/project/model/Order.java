@@ -1,7 +1,6 @@
 package com.sb_ecommerce.project.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @Email
     @Column(nullable = false)
     private String email;
 
@@ -37,7 +35,7 @@ public class Order {
     private Double totalAmount;
     private String orderStatus;
 
-    // Reference to Address
+    //reference to address
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
