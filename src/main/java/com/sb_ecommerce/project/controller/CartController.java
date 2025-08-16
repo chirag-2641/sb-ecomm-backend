@@ -8,12 +8,15 @@ import com.sb_ecommerce.project.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Cart APIs", description = "Endpoints for managing shopping carts")
 public class CartController {
 
     @Autowired
@@ -26,6 +29,7 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/carts/products/{productId}/quantity/{quantity}")
+    @Operation(summary = "Add product to cart", description = "Adds a product with specified quantity to the logged-in user's cart")
     public ResponseEntity<CartDTO> addProductToCart(@PathVariable Long productId,
                                                     @PathVariable Integer quantity){
         CartDTO cartDTO = cartService.addProductToCart(productId, quantity);
@@ -33,12 +37,14 @@ public class CartController {
     }
 
     @GetMapping("/carts")
+    @Operation(summary = "Get all carts", description = "Fetches all carts available in the system")
     public ResponseEntity<List<CartDTO>> getCarts() {
         List<CartDTO> cartDTOs = cartService.getAllCarts();
         return new ResponseEntity<List<CartDTO>>(cartDTOs, HttpStatus.FOUND);
     }
 
     @GetMapping("/carts/users/cart")
+    @Operation(summary = "Get logged-in user's cart", description = "Fetches the cart details of the currently logged-in user")
     public ResponseEntity<CartDTO> getCartById(){
         String emailId = authUtil.loggedInEmail();
         Cart cart = cartRepository.findCartByEmail(emailId);
@@ -48,6 +54,7 @@ public class CartController {
     }
 
     @PutMapping("/cart/products/{productId}/quantity/{operation}")
+    @Operation(summary = "Update product quantity in cart", description = "Updates the quantity of a product in the cart (use 'delete' as operation to decrease/remove)")
     public ResponseEntity<CartDTO> updateCartProduct(@PathVariable Long productId,
                                                      @PathVariable String operation) {
 
@@ -58,6 +65,7 @@ public class CartController {
     }
 
     @DeleteMapping("/carts/{cartId}/product/{productId}")
+    @Operation(summary = "Delete product from cart", description = "Removes a specific product from the cart by cart ID and product ID")
     public ResponseEntity<String> deleteProductFromCart(@PathVariable Long cartId,
                                                         @PathVariable Long productId) {
         String status = cartService.deleteProductFromCart(cartId, productId);

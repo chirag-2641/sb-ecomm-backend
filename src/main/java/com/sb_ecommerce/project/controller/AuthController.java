@@ -12,6 +12,8 @@ import com.sb_ecommerce.project.security.response.MessageResponse;
 import com.sb_ecommerce.project.security.response.UserInfoResponse;
 import com.sb_ecommerce.project.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication APIs", description = "Endpoints for user authentication and account management")
 public class AuthController {
 
     @Autowired
@@ -48,6 +51,7 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @PostMapping("/signin")
+    @Operation(summary = "Sign in", description = "Authenticates a user and returns JWT cookie + user info")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
         try {
@@ -79,6 +83,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @Operation(summary = "Sign up", description = "Registers a new user with role assignment")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUserName(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -130,6 +135,7 @@ public class AuthController {
     }
 
     @GetMapping("/username")
+    @Operation(summary = "Get current username", description = "Returns the username of the currently authenticated user")
     public String currentUserName(Authentication authentication){
         if (authentication != null)
             return authentication.getName();
@@ -139,6 +145,7 @@ public class AuthController {
 
 
     @GetMapping("/user")
+    @Operation(summary = "Get user details", description = "Returns user details of the currently authenticated user")
     public ResponseEntity<?> getUserDetails(Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -153,6 +160,7 @@ public class AuthController {
     }
 
     @PostMapping("/signout")
+    @Operation(summary = "Sign out", description = "Clears JWT cookie and logs out the user")
     public ResponseEntity<?> signoutUser(){
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,
