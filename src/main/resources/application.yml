@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: sb-ecom
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+app:
+  jwtSecret: ${JWT_SECRET}
+  jwtExpirationMs: ${JWT_EXPIRATION_MS}
+
+ecom:
+  app:
+    jwtCookieName: springBootEcom
+
+project:
+  image: ${PROJECT_IMAGE_DIR}
+
+server:
+  port: ${SERVER_PORT}
