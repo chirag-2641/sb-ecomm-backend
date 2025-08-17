@@ -25,9 +25,9 @@ public class SwaggerConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("Spring Boot eCommerce API")
+                        .title("TradeFlow API")
                         .version("1.0")
-                        .description("This is a Spring Boot Project for eCommerce")
+                        .description("TradeFlow API is a Spring Boot-based backend application providing a secure, production-ready REST API for an e-commerce platform.")
                         .contact(new Contact()
                                 .name("Chirag")
                                 .email("chirag2641@gmail.com")
