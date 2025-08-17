@@ -45,13 +45,13 @@
 Clone the project
 
 ```bash
-git clone https://github.com/chirag-2641/sb-ecomm-backend.git
+git clone https://github.com/chirag-2641/Trade-Flow-API.git
 ```
 
 Go to the project directory
 
 ```bash
-cd sb-ecomm-backend
+cd Trade-Flow-API
 ```
 
 Configure Database
